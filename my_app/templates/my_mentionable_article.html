@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ article.title }}</title>
+</head>
+<body>
+<div class="article-title">{{ article.title }}</div>
+<div class="article-summary">{{ article.summary }}</div>
+<div class="article-content">{{ article.main_content }}</div>
+
+<div class="webmentions">
+    {% for wm in article.webmentions %}
+    <div class="wm">
+        <div class="wm-hcard">
+            <div class="hcard-name">{{ wm.hcard.name }}</div>
+            <div class="hcard-homepage">{{ wm.hcard.homepage }}</div>
+        </div>
+    </div>
+    {% empty %}
+        <div>No webmentions!</div>
+    {% endfor %}
+</div>
+</body>
+</html>
