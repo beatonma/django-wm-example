@@ -56,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'mentions.middleware.WebmentionHeadMiddleware',  # REQUIRED: Add mentions to middleware list
 ]
 
 ROOT_URLCONF = 'example.urls'
