@@ -27,9 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    '54.154.200.230',
 ]
-# SITE = 1
+SITE = 1
+APPEND_SLASH = False
 
 
 # Application definition
@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    # 'django.contrib.flatpages',
+    'django.contrib.flatpages',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.sites',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
 
     'mentions',  # REQUIRED: Add mentions to app list
@@ -130,3 +130,46 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+WEBMENTION_NAMESPACE = 'webmention'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'my_app': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        '': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'mentions': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'celery.task': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+    }
+}
