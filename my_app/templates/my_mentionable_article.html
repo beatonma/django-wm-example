@@ -10,7 +10,7 @@
 <div class="article-content">{{ article.main_content }}</div>
 
 <div class="webmentions">
-    {% for wm in article.webmentions %}
+    {% for wm in article.mentions %}
     <div class="wm">
         <div class="wm-hcard">
             <div class="hcard-name">{{ wm.hcard.name }}</div>
