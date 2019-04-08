@@ -1,25 +1,38 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>{{ article.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-<div class="article-title">{{ article.title }}</div>
-<div class="article-summary">{{ article.summary }}</div>
-<div class="article-content">{{ article.main_content }}</div>
 
-<div class="webmentions">
-    {% for wm in article.mentions %}
-    <div class="wm">
-        <div class="wm-hcard">
-            <div class="hcard-name">{{ wm.hcard.name }}</div>
-            <div class="hcard-homepage">{{ wm.hcard.homepage }}</div>
-        </div>
+<body>
+    <div class="card">
+        <h1 class="article-title">{{ article.title }}</h1>
+        <div class="article-summary">{{ article.summary }}</div>
+        <div class="article-content">{{ article.main_content | safe }}</div>
     </div>
-    {% empty %}
+    <div class="webmentions">
+        <h2>This page has been mentioned:</h2>
+        {% for wm in article.mentions %}
+        <div class="wm card">
+            <div class="wm-hcard hor">
+                <div class="hcard-avatar" style="background-image: url('{{ wm.hcard.avatar }}');"></div>
+                <div class="hcard-text">
+                    <div class="hcard-name">{{ wm.hcard.name }}</div>
+                    <div class="wm-source-url"><a href="{{ wm.source_url }}">{{ wm.source_url }}</a></div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
         <div>No webmentions!</div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
+    <footer>
+        Source for this site is available on <a href="https://github.com/beatonma/django-wm-example">Github</a>
+    </footer>
 </body>
+
 </html>
