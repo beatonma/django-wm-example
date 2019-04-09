@@ -9,11 +9,21 @@
 </head>
 
 <body>
+    {% include 'unapproved_webmentions_notification.html' %}
     <div class="card">
         <h1 class="article-title">{{ article.title }}</h1>
         <div class="article-summary">{{ article.summary }}</div>
         <div class="article-content">{{ article.main_content | safe }}</div>
     </div>
+    {% if temporary_mentions %}
+    <div class="card">
+        <h2>Temporary mentions:</h2>
+        If you have submitted a link it will appear here for 15 minutes to help you test your server.
+        {% for wm in temporary_mentions %}
+        <div class="temp-link"><a href="{{ wm.url }}">{{ wm.url }}</a></div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="webmentions">
         <h2>This page has been mentioned:</h2>
         {% for wm in article.mentions %}
