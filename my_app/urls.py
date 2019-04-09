@@ -6,7 +6,7 @@ import logging
 
 from django.urls import path
 
-from .views import MyMentionableArticleView
+from .views import MentionableExampleView, SubmitView
 
 log = logging.getLogger(__name__)
 
@@ -14,10 +14,14 @@ urlpatterns = [
     # REQUIRED: Add `model_name` with `appname.modelname` to path kwargs!
     path(
         '',
-        MyMentionableArticleView.as_view(),
+        MentionableExampleView.as_view(),
         kwargs={
             'slug': 'webmention-tester',
-            'model_name': 'my_app.MyMentionableArticle',
+            'model_name': 'my_app.MentionableExample',
         },
-        name='my_mentionable_article')
+        name='mentionable_example'),
+    path(
+        'submit',
+        SubmitView.as_view(),
+        name='submit'),
 ]
