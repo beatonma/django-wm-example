@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from django.db import models
 from django.urls import reverse
@@ -9,7 +9,7 @@ from mentions.models.webmention import Webmention
 TEMPORARY_WEBMENTION_TIMEOUT = 60 * 15
 
 
-class MyMentionableArticle(MentionableMixin, models.Model):
+class MentionableExample(MentionableMixin, models.Model):
     title = models.CharField(max_length=48)
     slug = models.SlugField(max_length=48)
 
@@ -34,4 +34,4 @@ class TemporaryMention(models.Model):
 
     @property
     def alive(self):
-        return datetime.now() - timedelta(seconds=TEMPORARY_WEBMENTION_TIMEOUT)
+        return timedelta(seconds=TEMPORARY_WEBMENTION_TIMEOUT) + self.submission_time > datetime.now(timezone.utc)
