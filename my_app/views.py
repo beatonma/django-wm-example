@@ -25,6 +25,13 @@ class MentionableExampleView(View):
 
 
 class SubmitView(View):
+    """
+    Allow developers to submit their own URLs.
+    These will appear on the main page for a short time to help them
+    test their implementation.
+    TODO this does not yet trigger an outgoing mention so is currently useless!
+    """
+
     def dispatch(self, request, *args, **kwargs):
         if request.method == 'GET':
             return render(
