@@ -1,2 +1,7 @@
 local_settings.py
+*.sqlite3
+
+.idea/
 env/
+
+*/__pycache__/
