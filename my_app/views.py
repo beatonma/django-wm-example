@@ -1,3 +1,5 @@
+from functools import reduce
+
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.http import HttpResponseBadRequest
@@ -5,14 +7,30 @@ from django.shortcuts import redirect, render
 from django.views import View
 
 from mentions.models.webmention import Webmention
+from mentions.tasks.outgoing_webmentions import process_outgoing_webmentions
 from .models import MentionableExample, TemporaryMention
 
 
 class MentionableExampleView(View):
+    """
+    Example of a mentionable page.
+    For the purposes of this example we are just returning the mentions with the main request.
+    You might prefer to do this via javascript to help the original page load as quickly as
+    possible. To do that, make a call to /webmention/get
+    """
     def dispatch(self, request, *args, **kwargs):
         article = MentionableExample.objects.get(slug=kwargs.get('slug'))
         mentions_pending_approval = Webmention.objects.filter(approved=False)
-        temporary_mentions = [x for x in TemporaryMention.objects.all() if x.alive]
+
+        temps = TemporaryMention.objects.all().order_by('url', 'submission_time')
+        temps = [x for x in temps if x.alive]
+        temporary_mentions = []
+        if temps:
+            temporary_mentions = reduce(
+                lambda x, y: x+[y] if x == [] or x[-1].url != y.url else x,
+                temps,
+                [])
+            temporary_mentions.sort(key=lambda x: x.submission_time)
 
         return render(
             request,
@@ -29,7 +47,6 @@ class SubmitView(View):
     Allow developers to submit their own URLs.
     These will appear on the main page for a short time to help them
     test their implementation.
-    TODO this does not yet trigger an outgoing mention so is currently useless!
     """
 
     def dispatch(self, request, *args, **kwargs):
@@ -47,6 +64,9 @@ class SubmitView(View):
 
             if url:
                 TemporaryMention.objects.create(url=url).save()
+                process_outgoing_webmentions(
+                    '/',
+                    f'<html><body><a href="{url}"{url}</a></body></html>')
                 return redirect('/')
 
         return HttpResponseBadRequest()
