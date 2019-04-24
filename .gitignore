@@ -1,7 +1,10 @@
 local_settings.py
 *.sqlite3
+*.ini
+*.ico
 
 .idea/
 env/
+static/
 
 */__pycache__/
