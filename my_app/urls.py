@@ -19,9 +19,16 @@ urlpatterns = [
             'slug': 'webmention-tester',
             'model_name': 'my_app.MentionableExample',
         },
-        name='mentionable_example'),
+        name='main'),
     path(
         'submit',
         SubmitView.as_view(),
         name='submit'),
+    path(
+        'mentionable/<str:slug>',
+        MentionableExampleView.as_view(),
+        kwargs={
+            'model_name': 'my_app.MentionableExample',
+        },
+        name='mentionable_example'),
 ]
