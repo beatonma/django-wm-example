@@ -1,4 +1,3 @@
-{% if user.is_superuser %}
-{# TODO Create/check for permission for approving mentions #}
+{% if user.is_superuser %}{# TODO Create/check for permission for approving mentions #}
 <div class="mentions-pending-approval">{{ mentions_pending_approval|length }} unapproved mentions</div>
 {% endif %}

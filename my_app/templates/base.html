@@ -1,0 +1,33 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111111">
+    <meta name="description" content="A webmention library for Django">
+    <link rel="shortcut icon" href="/static/favicon.ico"/>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="webmention" href="/webmention/">
+</head>
+<body>
+    {% include 'admin_header.html' %}
+    <div id="content">{% block content %}{% endblock %}</div>
+    <footer>
+        <div class="h-card">
+            <div class="hidden">
+                <a class="u-url p-name" href="https://django-wm.dev">django-wm</a>
+                <img class="u-logo u-photo" src="https://django-wm.dev/static/images/logo.png"/>
+            </div>
+            Source: <a class="u-url" href="https://github.com/beatonma/django-wm">django-wm</a> | <a class="u-url" href="https://github.com/beatonma/django-wm-example">django.dev</a>
+        </div>
+        <div class="h-card">
+            <div class="hidden">
+                <span class="p-region">Scotland</span>, <span class="p-country-name">UK</span>
+                <img class="u-logo u-photo" src="https://beatonma.org/static/images/mb.png"/>
+            </div>
+            Built by <a href="https://beatonma.org" class="u-url p-name">Michael Beaton</a>
+        </div>
+    </footer>
+</body>
+</html>

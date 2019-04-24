@@ -1,48 +1,37 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>{{ article.title }}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+{% block title %}{{ article.title }}{% endblock %}
 
-<body>
-    {% include 'unapproved_webmentions_notification.html' %}
-    <div class="card">
-        <h1 class="article-title">{{ article.title }}</h1>
-        <div class="article-summary">{{ article.summary }}</div>
-        <div class="article-content">{{ article.main_content | safe }}</div>
-    </div>
+{% block content %}{% include 'unapproved_webmentions_notification.html' %}
+    {% if user.is_superuser %}<div class="admin-header"><a href="{% url 'admin:my_app_mentionableexample_change' article.id %}">edit</a></div>{% endif %}
+
+    <section class="card">
+        <h1>{{ article.title }}</h1>
+        {% if article.summary %}<div class="article-summary">{{ article.summary }}</div>{% endif %}
+        <main>
+            <article class="article-content">{{ article.main_content | safe }}</article>
+        </main>
+    </section>
+
     {% if temporary_mentions %}
-    <div class="card">
-        <h2>Temporary mentions:</h2>
-        If you have submitted a link it will appear here for 15 minutes to help you test your server.
+    <section class="card">
+        <h3>Temporary mentions</h3>
+        <p>If you have submitted a link it will appear here to help you test your server. Links expire after 15 minutes but feel free to resubmit if you need to.</p>
         {% for wm in temporary_mentions %}
         <div class="temp-link"><a href="{{ wm.url }}">{{ wm.url }}</a></div>
         {% endfor %}
-    </div>
+        <p></p>
+    </section>
     {% endif %}
-    <div class="webmentions">
-        <h2>This page has been mentioned:</h2>
-        {% for wm in article.mentions %}
-        <div class="wm card">
-            <div class="wm-hcard hor">
-                <div class="hcard-avatar" style="background-image: url('{{ wm.hcard.avatar }}');"></div>
-                <div class="hcard-text">
-                    <div class="hcard-name">{{ wm.hcard.name }}</div>
-                    <div class="wm-source-url"><a href="{{ wm.source_url }}">{{ wm.source_url }}</a></div>
-                </div>
-            </div>
-        </div>
-        {% empty %}
-        <div>No webmentions!</div>
-        {% endfor %}
-    </div>
-    <footer>
-        Source for this site is available on <a href="https://github.com/beatonma/django-wm-example">Github</a>
-    </footer>
-</body>
 
-</html>
+    {% if article.mentions %}
+    <section class="webmentions">
+        <h3>This page has been mentioned by:</h3>
+        <div class="hor-wrap">
+            {% for wm in article.mentions %}
+            {% include 'webmention.html' %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+{% endblock %}

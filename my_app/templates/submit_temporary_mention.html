@@ -1,5 +1,15 @@
-<form action="/submit" method="post">
-    {% csrf_token %}
-    <input type="text" name="url"/>
-    <input type="submit" value="Submit"/>
-</form>
+{% extends 'base.html' %}
+{% block title %}Submit a mentionable page{% endblock %}
+{% block content %}
+<section class="card">
+    <p>
+        <span class="emph">To test your incoming webmentions</span>, submit a link to a mentionable page on your site. Your link will appear on the <a href="/">homepage</a> (for ~15 minutes) and your webmention endpoint will be notified.
+    </p>
+    <form action="/submit" method="post">
+        {% csrf_token %}
+        <input type="text" name="url"/>
+        <input type="submit" value="Submit"/>
+    </form>
+    <p></p>
+</section>
+{% endblock %}
