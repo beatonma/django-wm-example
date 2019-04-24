@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-from .local_settings import SECRET_KEY, DOMAIN_NAME
+from .local_settings import SECRET_KEY, DOMAIN_NAME, LOCAL_ALLOWED_HOSTS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,12 +23,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
     DOMAIN_NAME,
-]
+] + LOCAL_ALLOWED_HOSTS
 SITE_ID = 1
 APPEND_SLASH = False
 
@@ -61,6 +61,9 @@ MIDDLEWARE = [
 
     'mentions.middleware.WebmentionHeadMiddleware',  # REQUIRED: Add mentions to middleware list
 ]
+
+# django-wm fields
+WEBMENTIONS_AUTO_APPROVE = True
 
 ROOT_URLCONF = 'example.urls'
 
@@ -156,7 +159,7 @@ LOGGING = {
     'loggers': {
         'my_app': {
             'handlers': ['console'],
-            'propagate': True,
+            'propagate': False,
         },
         '': {
             'handlers': ['console'],
@@ -164,7 +167,7 @@ LOGGING = {
         },
         'mentions': {
             'handlers': ['console'],
-            'propagate': True,
+            'propagate': False,
             'level': 'DEBUG',
         },
         'django': {
