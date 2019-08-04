@@ -29,7 +29,7 @@
         <h3>This page has been mentioned by:</h3>
         <div class="hor-wrap">
             {% for wm in article.mentions %}
-            {% include 'webmention.html' %}
+            {% ifchanged %}{% include 'webmention.html' %}{%  endifchanged %}
             {% endfor %}
         </div>
     </section>
