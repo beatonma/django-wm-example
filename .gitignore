@@ -8,3 +8,4 @@ env/
 static/
 
 */__pycache__/
+*/migrations/
