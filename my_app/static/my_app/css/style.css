@@ -83,6 +83,7 @@ input[type=text] {
 .hcard-avatar {
     width: 32px !important;
     height: 32px !important;
+    background: var(--accent-background);
     border-radius: 6px;
     background-size: contain;
     background-repeat: no-repeat;
