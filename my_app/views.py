@@ -70,10 +70,11 @@ class SubmitView(View):
                 temp.save()
                 process_outgoing_webmentions(
                     '/',
-                    f'<html><body><a href="{url}"{url}</a></body></html>')
+                    f'<html><body><a href="{url}">{url}</a></body></html>')
                 status = OutgoingWebmentionStatus.objects.filter(target_url=url).order_by('created_at').first()
                 temp.outgoing_status = status
                 temp.save()
+
                 return redirect('/')
 
         return HttpResponseBadRequest()
