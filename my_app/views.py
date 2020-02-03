@@ -66,7 +66,7 @@ class SubmitView(View):
                 TemporaryMention.objects.create(url=url).save()
                 process_outgoing_webmentions(
                     '/',
-                    f'<html><body><a href="{url}"{url}</a></body></html>')
+                    f'<html><body><a href="{url}">{url}</a></body></html>')
                 return redirect('/')
 
         return HttpResponseBadRequest()
