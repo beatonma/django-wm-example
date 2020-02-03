@@ -90,6 +90,13 @@ input[type=text] {
     margin-right: 8px;
 }
 
+.hcard-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 190px;
+}
+
 .wm {
     width: 245px !important;
     margin-left: 4px !important;
@@ -127,6 +134,58 @@ input[type=text] {
 
 .hidden {
     display: none;
+}
+
+.temp-link {
+    border: 2px solid var(--text-secondary);
+    border-radius: 6px;
+    padding: 8px 16px 8px 12px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 16px;
+    text-decoration: none !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+
+a.temp-link {
+    text-decoration: none !important;
+}
+
+.status {
+    font-size: .8rem;
+    font-weight: bold;
+    cursor: default;
+    margin-left: 4px;
+}
+
+.status-icon {
+    font-size: .8rem;
+    font-weight: bold;
+    cursor: default;
+    min-width: .8rem;
+    max-width: .8rem;
+    min-height: .8rem;
+    max-height: .8rem;
+}
+
+.status-accepted {
+    color: #12a245;
+}
+
+.status-rejected {
+    color: #b10000;
+}
+
+.status-unknown {
+    color: #b95729;
+}
+
+.status-message {
+    font-variant-caps: all-small-caps;
+    margin-left: .85rem;
 }
 
 .admin-header, .mentions-pending-approval {

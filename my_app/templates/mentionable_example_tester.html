@@ -17,9 +17,21 @@
     <section class="card">
         <h3>Temporary mentions</h3>
         <p>If you have submitted a link it will appear here to help you test your server. Links expire after 15 minutes but feel free to resubmit if you need to.</p>
-        {% for wm in temporary_mentions %}
-        <div class="temp-link"><a href="{{ wm.url }}">{{ wm.url }}</a></div>
-        {% endfor %}
+        <div class="hor-wrap">
+            {% for wm in temporary_mentions %}
+            <a class="temp-link" title="{{ wm.url }}" href="{{ wm.url }}">
+                {% if wm.outgoing_status.successful is True %}<span title="Accepted by target server" class="status-icon status-accepted">&#x2714;</span>
+                {% elif wm.outgoing_status.successful is False %}<span title="Rejected by target server" class="status-icon status-rejected">&#x2716;</span>
+                {% else %}<span title="Status unknown" class="status-icon status-unknown">?</span>
+                {% endif %}
+                {{ wm.url }}
+                {% if wm.outgoing_status.successful is True %}<div title="Accepted by target server" class="status-message status status-accepted">Accepted by target server</div>
+                {% elif wm.outgoing_status.successful is False %}<div title="Rejected by target server" class="status-message status status-rejected">Rejected by target server</div>
+                {% else %}<div title="Status unknown" class="status-message status status-unknown">Status unknown</div>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
         <p></p>
     </section>
     {% endif %}

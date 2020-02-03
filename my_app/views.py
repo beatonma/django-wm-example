@@ -6,7 +6,10 @@ from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.views import View
 
-from mentions.models.webmention import Webmention
+from mentions.models.webmention import (
+    Webmention,
+    OutgoingWebmentionStatus,
+)
 from mentions.tasks.outgoing_webmentions import process_outgoing_webmentions
 from .models import MentionableExample, TemporaryMention
 
@@ -63,10 +66,15 @@ class SubmitView(View):
                 return HttpResponseBadRequest()
 
             if url:
-                TemporaryMention.objects.create(url=url).save()
+                temp = TemporaryMention.objects.create(url=url)
+                temp.save()
                 process_outgoing_webmentions(
                     '/',
                     f'<html><body><a href="{url}">{url}</a></body></html>')
+                status = OutgoingWebmentionStatus.objects.filter(target_url=url).order_by('created_at').first()
+                temp.outgoing_status = status
+                temp.save()
+
                 return redirect('/')
 
         return HttpResponseBadRequest()

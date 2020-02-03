@@ -38,6 +38,13 @@ class TemporaryMention(models.Model):
     url = models.URLField()
     submission_time = models.DateTimeField(auto_now_add=True)
 
+    outgoing_status = models.ForeignKey(
+        'mentions.OutgoingWebmentionStatus',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
     @property
     def alive(self):
         return timedelta(seconds=TEMPORARY_WEBMENTION_TIMEOUT) + self.submission_time > datetime.now(timezone.utc)
