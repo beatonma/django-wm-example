@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111111">
+    <meta name="description" content="A webmention library for Django">
+    <link rel="shortcut icon" href="/static/images/favicon.ico"/>
+    <title>Manual webmention submission</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="webmention" href="/webmention/">
+    <style>input[type=url] { min-width: 60%; }</style>
+</head>
+<body>
+<div class="card">
+    <h1>Manual submission</h1>
+    <div class="card-content">
+        <p>Your server should handle webmentions automatically but if you want to submit one manually then please enter your page URL below.</p>
+    </div>
+    <form class="card-content" id="webmention_manual_submit" name="webmention_manual_submit" method="POST" action="{% url 'incoming_webmention_api_view' %}">
+        {% csrf_token %}
+        {% for field in form %}<div><p>
+            {% if field.name == 'target' %}<input value="https://django-wm.dev" type="hidden" name="target" required id="id_target">
+            {% else %}{{ field.errors }} {{ field }}
+            {% endif %}
+        </p></div>
+        {% endfor %}
+        <input name="Submit" title="Submit" type="submit">
+    </form>
+</div>
+</body>
