@@ -2,10 +2,21 @@ from __future__ import absolute_import, unicode_literals
 
 import os
 
-from celery import Celery
+from django.conf import settings
+from mentions.exceptions import BadConfig
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'example.settings')
+try:
+    from celery import Celery
 
-app = Celery('djangowm')
-app.config_from_object('django.conf:settings', namespace='CELERY')
-app.autodiscover_tasks()
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "example.settings")
+
+    app = Celery("djangowm")
+    app.config_from_object("django.conf:settings", namespace="CELERY")
+    app.autodiscover_tasks()
+
+
+except ModuleNotFoundError:
+    if getattr(settings, "WEBMENTION_USE_CELERY", None) is True:
+        raise BadConfig(
+            "Webmentions is configured to use Celery but it is not installed."
+        )

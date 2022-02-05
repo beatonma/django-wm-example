@@ -20,7 +20,7 @@
     <form class="card-content" id="webmention_manual_submit" name="webmention_manual_submit" method="POST" action="{% url 'incoming_webmention_api_view' %}">
         {% csrf_token %}
         {% for field in form %}<div><p>
-            {% if field.name == 'target' %}<input value="https://django-wm.dev" type="hidden" name="target" required id="id_target">
+            {% if field.name == 'target' %}<input value="https://beatonma.org/webmentions_tester/" type="hidden" name="target" required id="id_target">
             {% else %}{{ field.errors }} {{ field }}
             {% endif %}
         </p></div>
